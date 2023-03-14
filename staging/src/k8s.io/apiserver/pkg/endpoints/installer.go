@@ -18,6 +18,7 @@ package endpoints
 
 import (
 	"fmt"
+	"k8s.io/klog/v2"
 	"net/http"
 	gpath "path"
 	"reflect"
@@ -110,6 +111,7 @@ func (a *APIInstaller) Install() ([]metav1.APIResource, []*storageversion.Resour
 	}
 	sort.Strings(paths)
 	for _, path := range paths {
+		klog.Info("path is %v", path)
 		apiResource, resourceInfo, err := a.registerResourceHandlers(path, a.group.Storage[path], ws)
 		if err != nil {
 			errors = append(errors, fmt.Errorf("error in registering resource: %s, %v", path, err))
